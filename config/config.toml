@@ -1,0 +1,65 @@
+# HTTP Server
+[server]
+	Address     = ":8199"
+	ServerRoot  = "public"
+	ServerAgent = "gf-app"
+	LogPath     = "/tmp/log/gf-app/server"
+
+# Logger.
+[logger]
+    Path        = "/tmp/log/gf-app"
+    Level       = "all"
+    Stdout      = true
+
+# Template.
+[viewer]
+    Path        = "template"
+    DefaultFile = "index.html"
+    Delimiters  =  ["{{", "}}"]
+
+# Database.
+[database]
+    [[database.default]]
+        host         = "10.4.7.71"
+        port         = "3307"
+        user         = "root"
+        pass         = "root"
+        name         = "mall"
+        type         = "mysql"
+        role         = "master"
+        debug        = "true"
+        dryrun       = 1
+        weight       = "100"
+        prefix       = ""
+        charset      = "utf8"
+        maxIdle      = "20"
+        maxOpen      = "100"
+        maxLifetime  = "30s"
+
+    # Database logger.
+    [database.logger]
+        Path   = "/tmp/log/gf-app/sql"
+        Level  = "all"
+        Stdout = true
+[gfcli]
+    [[gfcli.gen.dao]]
+        link   = "mysql:root:root@tcp(10.4.7.71:3307)/mall"
+        tables = "sys_user"
+
+[redis]
+    default = "10.4.7.71:6379,0"
+    cache   = "10.4.7.71:6379,1,?idleTimeout=600"
+
+[rabbitmq]
+    [[rabbitmq.default]]
+        Address = "10.4.7.71"
+        Port = "5672"
+        User = "admin"
+        Password = "123456"
+        Vhost = "/"
+[es]
+    [[es.default]]
+        Address = "10.4.7.71"
+        Port   = "9200"
+        User = "elastic"
+        Password = "hZksYkpkcweABXu68qh0"

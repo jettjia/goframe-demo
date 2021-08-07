@@ -1,0 +1,49 @@
+package producer
+
+import (
+	"github.com/streadway/amqp"
+	"log"
+	"my-app/library/middleware/rabbitmq"
+)
+
+func DemoTest(poolName string, msg string) {
+	rabbitmq.Debug = true
+
+	connStr := rabbitmq.MidAmpq.MqConnStr(poolName)
+
+	conn, err := rabbitmq.Dial(connStr)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	sendCh, err := conn.Channel()
+	if err != nil {
+		log.Panic(err)
+	}
+
+	exchangeName := "test-exchange"
+	queueName := "test-queue"
+
+	err = sendCh.ExchangeDeclare(exchangeName, amqp.ExchangeDirect, true, false, false, false, nil)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	_, err = sendCh.QueueDeclare(queueName, true, false, false, false, nil)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	if err := sendCh.QueueBind(queueName, "", exchangeName, false, nil); err != nil {
+		log.Panic(err)
+	}
+
+	err = sendCh.Publish(exchangeName, "", false, false, amqp.Publishing{
+		ContentType: "text/plain",
+		Body:        []byte(msg),
+	})
+	if err != nil {
+		log.Printf("publish, err: %v", err)
+	}
+
+}
