@@ -36,10 +36,10 @@ func (*testCsvApi) DownCsv(r *ghttp.Request) {
 
 // csv up
 func (*testCsvApi) UpCsv(r *ghttp.Request) {
-
 	file := r.GetUploadFile("file")
 
-	name, err := file.Save("tmp/")
+	savePath := "tmp/"
+	saveFileName, err := file.Save(savePath, true)
 
 	if err != nil {
 		response.JsonExit(r, 1, "err", err.Error())
@@ -54,11 +54,9 @@ func (*testCsvApi) UpCsv(r *ghttp.Request) {
 	fmt.Println("上传文件大小是：", file.Size)
 
 	fmt.Println("============")
-	fmt.Println("保存后的文件是：：", name)
+	fmt.Println("保存后的文件是：：", saveFileName)
 
-	saveName := "tmp/" + name
-
-	CsvToUp(saveName)
+	CsvToUp(savePath + saveFileName)
 
 	response.JsonExit(r, 0, "ok")
 }
@@ -122,7 +120,7 @@ func CsvToUp(filename string) {
 	}
 	for _, v := range result2 {
 		user := &UserTest{
-			ID:  v[0],
+			ID:   v[0],
 			Name: v[1],
 			Addr: v[2],
 			Tel:  v[3],
