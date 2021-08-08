@@ -5,6 +5,7 @@ import (
 	"github.com/gogf/gf/crypto/gmd5"
 	"github.com/gogf/gf/database/gdb"
 	"github.com/gogf/gf/errors/gerror"
+	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/util/gconv"
 	"my-app/app/dao"
 	"my-app/app/define"
@@ -14,6 +15,16 @@ import (
 var User = userService{}
 
 type userService struct {}
+
+func (s *userService) GetUserByUsernamePassword(serviceReq *model.ServiceLoginReq) map[string]interface{} {
+	if serviceReq.Username == "admin" && serviceReq.Password == "admin" {
+		return g.Map{
+			"id":       1,
+			"username": "admin",
+		}
+	}
+	return nil
+}
 
 // 用户注册
 func (s *userService) SignUp(ctx context.Context, input define.UserServiceSignUp) error  {
