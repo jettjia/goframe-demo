@@ -4,6 +4,7 @@ import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"my-app/app/api"
+	"my-app/app/middleware"
 )
 
 // authHook is the HOOK function implements JWT logistics.
@@ -18,10 +19,25 @@ func MiddlewareCORS(r *ghttp.Request) {
 	r.Middleware.Next()
 }
 
+// 额外的中间件判断
+func MiddlewareABCTest(r *ghttp.Request) {
+	middleware.MiddlewareParam.Check(r)
+	r.Middleware.Next()
+}
+
+// 全局错误处理
+func MiddlewareErrHandler(r *ghttp.Request) {
+	middleware.MiddlewareErr.ErrHandle(r)
+	r.Middleware.Next()
+}
+
 
 func init() {
 	s := g.Server()
 	s.Group("/", func(group *ghttp.RouterGroup) {
+		// 全局错误处理
+		group.Middleware(MiddlewareErrHandler)
+
 		group.ALL("/hello", api.Hello)
 
 
@@ -37,6 +53,8 @@ func init() {
 			group.Middleware(MiddlewareCORS)
 			//JWT认证中间件
 			group.Middleware(MiddlewareAuth)
+			// 额外的中间件判断
+			group.Middleware(MiddlewareABCTest)
 
 			group.ALL("/registry", api.User.Register)
 			group.ALL("/profile", api.User.Profile)
