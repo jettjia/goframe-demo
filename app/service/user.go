@@ -67,6 +67,15 @@ func (s *userService) UpdateProfile(ctx context.Context, input define.UserUpdate
 	})
 }
 
+// Login 用户登录逻辑
+func (*userService)Login(ctx context.Context, username string) (output *define.UserGetProfileOutput, err error) {
+	output = &define.UserGetProfileOutput{}
+	if err := dao.SysUser.Ctx(ctx).Where("nickname=?", username).Scan(output); err != nil {
+		return nil, err
+	}
+	return
+}
+
 // 检测给定的账号是否唯一
 func (s *userService) CheckPassportUnique(ctx context.Context, passport string) error {
 	n, err := dao.SysUser.Ctx(ctx).Where(dao.SysUser.C.Passport, passport).Count()

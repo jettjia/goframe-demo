@@ -17,9 +17,9 @@ type UserServiceSignUp struct {
 
 // 用户信息
 type UserGetProfileOutput struct {
-	Id       uint
-	Nickname string
-	Passport string
+	Id       uint   `json:"id"`
+	Nickname string `json:"nickname"`
+	Passport string `json:"passport"`
 }
 
 // 修改用户

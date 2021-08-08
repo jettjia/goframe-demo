@@ -20,6 +20,7 @@ func init() {
 		group.ALL("/test/redis", api.TestRedis)
 		group.ALL("/test/mq", api.TestMq)
 		group.ALL("/test/es", api.TestEs)
+		group.ALL("/test/csv", api.TestCsv)
 	})
 
 

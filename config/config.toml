@@ -45,11 +45,9 @@
     [[gfcli.gen.dao]]
         link   = "mysql:root:root@tcp(10.4.7.71:3307)/mall"
         tables = "sys_user"
-
 [redis]
     default = "10.4.7.71:6379,0"
     cache   = "10.4.7.71:6379,1,?idleTimeout=600"
-
 [rabbitmq]
     [[rabbitmq.default]]
         Address = "10.4.7.71"

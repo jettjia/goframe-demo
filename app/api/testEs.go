@@ -33,7 +33,7 @@ func (*testEsApi) CreateIndex(r *ghttp.Request) {
 	)
 	fmt.Println(err)
 	if err != nil {
-		response.JsonExit(r, 1, "err", err)
+		response.JsonExit(r, 1, "err", err.Error())
 	}
 
 	indexname := "test-index" // indexname 你可以想成表名
