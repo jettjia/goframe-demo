@@ -52,9 +52,9 @@ func init() {
 			//允许跨域访问
 			group.Middleware(MiddlewareCORS)
 			//JWT认证中间件
-			group.Middleware(MiddlewareAuth)
+			//group.Middleware(MiddlewareAuth)
 			// 额外的中间件判断
-			group.Middleware(MiddlewareABCTest)
+			//group.Middleware(MiddlewareABCTest)
 
 			group.ALL("/registry", api.User.Register)
 			group.ALL("/profile", api.User.Profile)
